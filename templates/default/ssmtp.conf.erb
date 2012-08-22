@@ -1,0 +1,12 @@
+"ssmtp" configuration file automatically written by chef.  Changes will be overwritten.
+<%= "Root=#{@root_user}" if @root_user %>
+<%= "Mailhub=#{@mail_hub}" if @mail_hub %>
+<%= "RewriteDomain=#{@rewrite_domain}" if @rewrite_domain %>
+<%= "hostname=#{@hostname}" if @hostname %>
+<%= "FromLineOverride=#{@from_line_override}" if @from_line_override %>
+<%= "UseTLS=#{@use_tls}" if @use_tls %>
+<%= "UseSTARTTLS=#{@use_starttls}" if @use_starttls %>
+<%= "TLSCert=#{@tls_cert}" if @tls_cert %>
+<%= "AuthUser=#{@auth_user}" if @auth_user %>
+<%= "AuthPass=#{@auth_pass}" if @auth_pass %>
+<%= "AuthMethod=#{@auth_method}" if @auth_method %>
