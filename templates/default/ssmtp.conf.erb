@@ -1,6 +1,6 @@
-"ssmtp" configuration file automatically written by chef.  Changes will be overwritten.
+# "ssmtp" configuration file automatically written by chef.  Changes will be overwritten.
 <%= "Root=#{@root_user}" if @root_user %>
-<%= "Mailhub=#{@mail_hub}" if @mail_hub %>
+<%= "MailHub=#{@mail_hub}" if @mail_hub %>
 <%= "RewriteDomain=#{@rewrite_domain}" if @rewrite_domain %>
 <%= "hostname=#{@hostname}" if @hostname %>
 <%= "FromLineOverride=#{@from_line_override}" if @from_line_override %>

@@ -24,12 +24,17 @@ Usage
 =====
 Setup the default attributes, optionally setup databag items, and execute the cookbook.
 
-If more than one ssmtp configuration is require (for multiple mail providers/accounts), create an "ssmpt" data bag, populating it with databag items containing the attributes you want merged into the defaults.  Each databag item will create an individual ssmtp configuration file placed in /etc/ssmtp/, according to the item name.
+If more than one ssmtp configuration is required (for multiple mail providers/accounts), create an "ssmpt" data bag, populating it with databag items containing the attributes you want merged into the defaults.  Each databag item will create an individual ssmtp configuration file placed in /etc/ssmtp/, according to the item name.
+
+If you decide to use data bags, there is an extra attribute, "config_name" that will be the final basename of the
+config file written to disk in the /etc/ssmtp directory.  It should be the full filename, such as
+"ssmtp.special.conf" etc.  This is currently the only way to differentiate configs.
 
 Data bag items should be of the form:
 
 {
   "id": "ssmtp",
+  "config_name": "config_file_name",
   "root_user": "root",
   "rewrite_domain": "example.com",
   "hostname":"mail.example.com",

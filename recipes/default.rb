@@ -28,51 +28,34 @@ package "ssmtp" do
   action :install
 end
 
-# detect databag if present
-if Chef::DataBag.list.keys.include? "ssmtp"
-  configs = data_bag("ssmtp")
-  configs.each do |config|
-    # iterate over databag items, merging options
-    merged_config = node['ssmtp'].merge(config)
-    ## create a conf file from a template
-    template "/etc/ssmtp/#{merged_config.id}.conf" do
-      owner "root"
-      group "root"
-      source "ssmtp.conf.erb"
-      variables(
-        :root_user          => merged_config['root_user'],
-        :mail_hub           => merged_config['mail_hub'],
-        :rewrite_domain     => merged_config['rewrite_domain'],
-        :hostname           => merged_config['hostname'],
-        :from_line_override => merged_config['from_line_override'],
-        :use_tls            => merged_config['use_tls'],
-        :use_starttls       => merged_config['use_starttls'],
-        :tls_cert           => merged_config['tls_cert'],
-        :auth_user          => merged_config['auth_user'],
-        :auth_pass          => merged_config['auth_pass'],
-        :auth_method        => merged_config['auth_method'],
-      )
-    end
-  end
-else
-  template "/etc/ssmtp/ssmtp.conf" do
+def conf_template(conf_name, args)
+  template conf_name do
     owner "root"
     group "root"
     source "ssmtp.conf.erb"
     variables(
-      :root_user          => node['ssmtp']['root_user'],
-      :mail_hub           => node['ssmtp']['mail_hub'],
-      :rewrite_domain     => node['ssmtp']['rewrite_domain'],
-      :hostname           => node['ssmtp']['hostname'],
-      :from_line_override => node['ssmtp']['from_line_override'],
-      :use_tls            => node['ssmtp']['use_tls'],
-      :use_starttls       => node['ssmtp']['use_starttls'],
-      :tls_cert           => node['ssmtp']['tls_cert'],
-      :auth_user          => node['ssmtp']['auth_user'],
-      :auth_pass          => node['ssmtp']['auth_pass'],
-      :auth_method        => node['ssmtp']['auth_method'],
+      :root_user          => args['root_user'],
+      :mail_hub           => args['mail_hub'],
+      :rewrite_domain     => args['rewrite_domain'],
+      :hostname           => args['hostname'],
+      :from_line_override => args['from_line_override'],
+      :use_tls            => args['use_tls'],
+      :use_starttls       => args['use_starttls'],
+      :tls_cert           => args['tls_cert'],
+      :auth_user          => args['auth_user'],
+      :auth_pass          => args['auth_pass'],
+      :auth_method        => args['auth_method'],
     )
   end
 end
 
+if Chef::DataBag.list.keys.include? "ssmtp"
+  configs = data_bag("ssmtp")
+  configs.each do |config|
+    merged_config = Chef::Mixin::DeepMerge.merge(node['ssmtp'].to_hash, data_bag_item("ssmtp", config).to_hash)
+    conf_template "/etc/ssmtp/#{merged_config['config_name']}", merged_config
+  end
+else
+  conf_template "/etc/ssmtp/ssmtp.conf", node['ssmtp']
+end
 
