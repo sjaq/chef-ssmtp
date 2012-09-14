@@ -32,6 +32,7 @@ def conf_template(conf_name, args)
   template conf_name do
     owner "root"
     group "root"
+    mode "644"
     source "ssmtp.conf.erb"
     variables(
       :root_user          => args['root_user'],
@@ -58,4 +59,3 @@ if Chef::DataBag.list.keys.include? "ssmtp"
 else
   conf_template "/etc/ssmtp/ssmtp.conf", node['ssmtp']
 end
-
