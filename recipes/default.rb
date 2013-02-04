@@ -50,12 +50,4 @@ def conf_template(conf_name, args)
   end
 end
 
-if Chef::DataBag.list.keys.include? "ssmtp"
-  configs = data_bag("ssmtp")
-  configs.each do |config|
-    merged_config = Chef::Mixin::DeepMerge.merge(node['ssmtp'].to_hash, data_bag_item("ssmtp", config).to_hash)
-    conf_template "/etc/ssmtp/#{merged_config['config_name']}", merged_config
-  end
-else
-  conf_template "/etc/ssmtp/ssmtp.conf", node['ssmtp']
-end
+conf_template "/etc/ssmtp/ssmtp.conf", node['ssmtp']
