@@ -1,12 +1,12 @@
 default['ssmtp'] = {}
-default['ssmtp']['root_user']
-default['ssmtp']['mail_hub']
-default['ssmtp']['rewrite_domain']
-default['ssmtp']['hostname']
-default['ssmtp']['from_line_override']
-default['ssmtp']['use_tls']
-default['ssmtp']['use_starttls']
-default['ssmtp']['tls_cert']
-default['ssmtp']['auth_user']
-default['ssmtp']['auth_pass']
-default['ssmtp']['auth_method']
+default['ssmtp']['root_user'] = nil
+default['ssmtp']['mail_hub'] = nil
+default['ssmtp']['rewrite_domain'] = nil
+default['ssmtp']['hostname'] = node['fqdn']
+default['ssmtp']['from_line_override'] = nil
+default['ssmtp']['use_tls'] = nil
+default['ssmtp']['use_starttls'] = nil
+default['ssmtp']['tls_cert'] = nil
+default['ssmtp']['auth_user'] = nil
+default['ssmtp']['auth_pass'] = nil
+default['ssmtp']['auth_method'] = nil
