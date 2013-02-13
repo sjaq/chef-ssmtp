@@ -28,26 +28,9 @@ package "ssmtp" do
   action :install
 end
 
-def conf_template(conf_name, args)
-  template conf_name do
-    owner "root"
-    group "root"
-    mode "644"
-    source "ssmtp.conf.erb"
-    variables(
-      :root_user          => args['root_user'],
-      :mail_hub           => args['mail_hub'],
-      :rewrite_domain     => args['rewrite_domain'],
-      :hostname           => args['hostname'],
-      :from_line_override => args['from_line_override'],
-      :use_tls            => args['use_tls'],
-      :use_starttls       => args['use_starttls'],
-      :tls_cert           => args['tls_cert'],
-      :auth_user          => args['auth_user'],
-      :auth_pass          => args['auth_pass'],
-      :auth_method        => args['auth_method'],
-    )
-  end
+template "/etc/ssmtp/ssmtp.conf" do
+  owner "root"
+  group "root"
+  mode "644"
+  source "ssmtp.conf.erb"
 end
-
-conf_template "/etc/ssmtp/ssmtp.conf", node['ssmtp']
